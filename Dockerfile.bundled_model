@@ -1,0 +1,22 @@
+# This Dockerfile downloads the model during buildtime instead of runtime. It
+# is included primarily for demonstration purposes.
+
+# Note: Due to image size constraints, this can *ONLY* be used for small very
+#       models. Using large models can take a very long time when compressing
+#       and exporting container layers during the build process. If the
+#       resulting image is too large (>10GB), the deployment will fail when it
+#       attempts to download the image from the registry.
+
+FROM vllm/vllm-openai:latest
+
+ARG HUGGING_FACE_HUB_TOKEN
+ENV HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}
+
+RUN pip install huggingface-cli
+RUN huggingface-cli login --token $HUGGING_FACE_HUB_TOKEN
+RUN huggingface-cli download ${MODEL_NAME:-EleutherAI/pythia-70m} --local-dir /model
+
+ENTRYPOINT python3 -m vllm.entrypoints.openai.api_server \
+    --model /model \
+    --served-model-name ${MODEL_NAME:-EleutherAI/pythia-70m} \
+    ${REVISION:+--revision "$REVISION"}

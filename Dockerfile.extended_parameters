@@ -1,0 +1,79 @@
+FROM vllm/vllm-openai:latest
+
+ENTRYPOINT python3 -m vllm.entrypoints.openai.api_server \
+    --port $PORT \
+    --model ${MODEL_NAME:-google/gemma-2b-it} \
+    ${REVISION:+--revision "$REVISION"} \
+    ${UVICORN_LOG_LEVEL:+--uvicorn-log-level "$UVICORN_LOG_LEVEL"} \
+    ${LORA_MODULES:+--lora-modules "$LORA_MODULES"} \
+    ${CHAT_TEMPLATE:+--chat-template "$CHAT_TEMPLATE"} \
+    ${RESPONSE_ROLE:+--response-role "$RESPONSE_ROLE"} \
+    ${TOKENIZER:+--tokenizer "$TOKENIZER"} \
+    ${SKIP_TOKENIZER_INIT:+--skip-tokenizer-init} \
+    ${CODE_REVISION:+--code-revision "$CODE_REVISION"} \
+    ${TOKENIZER_REVISION:+--tokenizer-revision "$TOKENIZER_REVISION"} \
+    ${TOKENIZER_MODE:+--tokenizer-mode "$TOKENIZER_MODE"} \
+    ${TRUST_REMOTE_CODE:+--trust-remote-code} \
+    ${LOAD_FORMAT:+--load-format "$LOAD_FORMAT"} \
+    ${DTYPE:+--dtype "$DTYPE"} \
+    ${KV_CACHE_DTYPE:+--kv-cache-dtype "$KV_CACHE_DTYPE"} \
+    ${MAX_MODEL_LEN:+--max-model-len "$MAX_MODEL_LEN"} \
+    ${GUIDED_DECODING_BACKEND:+--guided-decoding-backend "$GUIDED_DECODING_BACKEND"} \
+    ${DISTRIBUTED_EXECUTOR_BACKEND:+--distributed-executor-backend "$DISTRIBUTED_EXECUTOR_BACKEND"} \
+    ${PIPELINE_PARALLEL_SIZE:+--pipeline-parallel-size "$PIPELINE_PARALLEL_SIZE"} \
+    ${TENSOR_PARALLEL_SIZE:+--tensor-parallel-size "$TENSOR_PARALLEL_SIZE"} \
+    ${MAX_PARALLEL_LOADING_WORKERS:+--max-parallel-loading-workers "$MAX_PARALLEL_LOADING_WORKERS"} \
+    ${RAY_WORKERS_USE_NSIGHT:+--ray-workers-use-nsight} \
+    ${BLOCK_SIZE:+--block-size "$BLOCK_SIZE"} \
+    ${ENABLE_PREFIX_CACHING:+--enable-prefix-caching} \
+    ${DISABLE_SLIDING_WINDOW:+--disable-sliding-window} \
+    ${USE_V2_BLOCK_MANAGER:+--use-v2-block-manager} \
+    ${NUM_LOOKAHEAD_SLOTS:+--num-lookahead-slots "$NUM_LOOKAHEAD_SLOTS"} \
+    ${SEED:+--seed "$SEED"} \
+    ${SWAP_SPACE:+--swap-space "$SWAP_SPACE"} \
+    ${GPU_MEMORY_UTILIZATION:+--gpu-memory-utilization "$GPU_MEMORY_UTILIZATION"} \
+    ${NUM_GPU_BLOCKS_OVERRIDE:+--num-gpu-blocks-override "$NUM_GPU_BLOCKS_OVERRIDE"} \
+    ${MAX_NUM_BATCHED_TOKENS:+--max-num-batched-tokens "$MAX_NUM_BATCHED_TOKENS"} \
+    ${MAX_NUM_SEQS:+--max-num-seqs "$MAX_NUM_SEQS"} \
+    ${MAX_LOGPROBS:+--max-logprobs "$MAX_LOGPROBS"} \
+    ${DISABLE_LOG_STATS:+--disable-log-stats} \
+    ${QUANTIZATION:+--quantization "$QUANTIZATION"} \
+    ${ROPE_SCALING:+--rope-scaling "$ROPE_SCALING"} \
+    ${ROPE_THETA:+--rope-theta "$ROPE_THETA"} \
+    ${ENFORCE_EAGER:+--enforce-eager} \
+    ${MAX_SEQ_LEN_TO_CAPTURE:+--max-seq-len-to-capture "$MAX_SEQ_LEN_TO_CAPTURE"} \
+    ${DISABLE_CUSTOM_ALL_REDUCE:+--disable-custom-all-reduce} \
+    ${TOKENIZER_POOL_SIZE:+--tokenizer-pool-size "$TOKENIZER_POOL_SIZE"} \
+    ${TOKENIZER_POOL_TYPE:+--tokenizer-pool-type "$TOKENIZER_POOL_TYPE"} \
+    ${TOKENIZER_POOL_EXTRA_CONFIG:+--tokenizer-pool-extra-config "$TOKENIZER_POOL_EXTRA_CONFIG"} \
+    ${ENABLE_LORA:+--enable-lora} \
+    ${MAX_LORAS:+--max-loras "$MAX_LORAS"} \
+    ${MAX_LORA_RANK:+--max-lora-rank "$MAX_LORA_RANK"} \
+    ${LORA_EXTRA_VOCAB_SIZE:+--lora-extra-vocab-size "$LORA_EXTRA_VOCAB_SIZE"} \
+    ${LORA_DTYPE:+--lora-dtype "$LORA_DTYPE"} \
+    ${LONG_LORA_SCALING_FACTORS:+--long-lora-scaling-factors "$LONG_LORA_SCALING_FACTORS"} \
+    ${MAX_CPU_LORAS:+--max-cpu-loras "$MAX_CPU_LORAS"} \
+    ${FULLY_SHARDED_LORAS:+--fully-sharded-loras} \
+    ${IMAGE_INPUT_TYPE:+--image-input-type "$IMAGE_INPUT_TYPE"} \
+    ${IMAGE_TOKEN_ID:+--image-token-id "$IMAGE_TOKEN_ID"} \
+    ${IMAGE_INPUT_SHAPE:+--image-input-shape "$IMAGE_INPUT_SHAPE"} \
+    ${IMAGE_FEATURE_SIZE:+--image-feature-size "$IMAGE_FEATURE_SIZE"} \
+    ${IMAGE_PROCESSOR:+--image-processor "$IMAGE_PROCESSOR"} \
+    ${IMAGE_PROCESSOR_REVISION:+--image-processor-revision "$IMAGE_PROCESSOR_REVISION"} \
+    ${DISABLE_IMAGE_PROCESSOR:+--disable-image-processor} \
+    ${SCHEDULER_DELAY_FACTOR:+--scheduler-delay-factor "$SCHEDULER_DELAY_FACTOR"} \
+    ${ENABLE_CHUNKED_PREFILL:+--enable-chunked-prefill} \
+    ${SPECULATIVE_MODEL:+--speculative-model "$SPECULATIVE_MODEL"} \
+    ${NUM_SPECULATIVE_TOKENS:+--num-speculative-tokens "$NUM_SPECULATIVE_TOKENS"} \
+    ${SPECULATIVE_MAX_MODEL_LEN:+--speculative-max-model-len "$SPECULATIVE_MAX_MODEL_LEN"} \
+    ${SPECULATIVE_DISABLE_BY_BATCH_SIZE:+--speculative-disable-by-batch-size "$SPECULATIVE_DISABLE_BY_BATCH_SIZE"} \
+    ${NGRAM_PROMPT_LOOKUP_MAX:+--ngram-prompt-lookup-max "$NGRAM_PROMPT_LOOKUP_MAX"} \
+    ${NGRAM_PROMPT_LOOKUP_MIN:+--ngram-prompt-lookup-min "$NGRAM_PROMPT_LOOKUP_MIN"} \
+    ${MODEL_LOADER_EXTRA_CONFIG:+--model-loader-extra-config "$MODEL_LOADER_EXTRA_CONFIG"} \
+    ${PREEMPTION_MODE:+--preemption_mode "$PREEMPTION_MODE"} \
+    ${SERVED_MODEL_NAME:+--served-model-name "$SERVED_MODEL_NAME"} \
+    ${QLORA_ADAPTER_NAME_OR_PATH:+--qlora-adapter-name-or-path "$QLORA_ADAPTER_NAME_OR_PATH"} \
+    ${ENGINE_USE_RAY:+--engine-use-ray} \
+    ${DISABLE_LOG_REQUESTS:+--disable-log-requrests} \
+    ${MAX_LOG_LEN:+--max-log-len "$MAX_LOG_LEN"} \
+
