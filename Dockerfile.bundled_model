@@ -1,7 +1,7 @@
 # This Dockerfile downloads the model during buildtime instead of runtime. It
 # is included primarily for demonstration purposes.
 
-# Note: Due to image size constraints, this can *ONLY* be used for small very
+# Note: Due to image size constraints, this can *ONLY* be used for very small
 #       models. Using large models can take a very long time when compressing
 #       and exporting container layers during the build process. If the
 #       resulting image is too large (>10GB), the deployment will fail when it
