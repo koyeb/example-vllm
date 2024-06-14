@@ -71,7 +71,7 @@ On the [Koyeb Control Panel](https://app.koyeb.com/), on the **Overview** tab, c
     Fill out the values as described in the previous section.
 
 4. In the **Instance** section, select the **GPU** category and choose **RTX-4000-SFF-ADA**.
-5. In the **Health checks** section, set the **Grace period** to 300 seconds. This will provide time for vLLM to download the appropriate model from Hugging face and initialize the server.
+5. In the **Health checks** section, set the **Grace period** to 300 seconds. This will provide time for vLLM to download the appropriate model from Hugging Face and initialize the server.
 6. Click **Deploy**.
 
 The repository will be pulled, built, and deployed on Koyeb. Once the deployment is complete, it will be accessible using the Koyeb subdomain for your service.
