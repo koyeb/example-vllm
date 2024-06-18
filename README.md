@@ -37,11 +37,11 @@ To use this repository, you need:
 
 The fastest way to deploy a vLLM instance is to click the **Deploy to Koyeb** button below.
 
-[![Deploy to Koyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?name=koyeb-vllm&type=git&repository=koyeb%2Fexample-vllm&branch=main&builder=dockerfile&instance_type=gpu-nvidia-rtx-4000-sff-ada&env%5BHUGGING_FACE_HUB_TOKEN%5D=CHANGE_ME&ports=8000%3Bhttp%3B%2F)
+[![Deploy to Koyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?name=koyeb-vllm&type=git&repository=koyeb%2Fexample-vllm&branch=main&builder=dockerfile&instance_type=gpu-nvidia-rtx-4000-sff-ada&env%5BHF_TOKEN%5D=CHANGE_ME&ports=8000%3Bhttp%3B%2F)
 
 Clicking on this button brings you to the Koyeb App creation page with most of the settings pre-configured to launch this application.  You will need to configure the following environment variables:
 
-- `HUGGING_FACE_HUB_TOKEN`: Set this to your Hugging Face read-only API token.
+- `HF_TOKEN`: Set this to your Hugging Face read-only API token.
 - `MODEL_NAME`: Set this to the name of the model you wish to use, as given on the Hugging Face site.  You can check [what models vLLM supports](https://docs.vllm.ai/en/latest/models/supported_models.html) to find out more.  Click the model name copy icon on the Hugging Face page to copy the appropriate value.  If not provided, the `google/gemma-2b-it` model will be deployed.
 - `REVISION`: Set this to the model revision you wish to use.  You can find available revisions in a drop down menu on the **Files and versions** tab of the Hugging Face model page.  If not provided, the default revision for the given model will be deployed.
 - `VLLM_API_KEY`: This defines an authorization token that must be provided when querying the API.  If not provided, unauthenticated queries will be accepted by the API.
@@ -62,7 +62,7 @@ On the [Koyeb Control Panel](https://app.koyeb.com/), on the **Overview** tab, c
 2. Choose the repository containing your application code.
 3. Expand the **Environment variables** section and click **Bulk edit** to configure new environment variables.  Paste the following variable definitions in the box:
    ```
-   HUGGING_FACE_HUB_TOKEN=
+   HF_TOKEN=
    MODEL_NAME=
    REVISION=
    VLLM_API_KEY=
