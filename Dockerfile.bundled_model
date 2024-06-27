@@ -21,4 +21,4 @@ RUN huggingface-cli download $MODEL_NAME --revision $REVISION --local-dir /works
 
 ENTRYPOINT python3 -m vllm.entrypoints.openai.api_server \
     --model /workspace/model \
-    --served-model-name $MODEL_NAME \
+    --served-model-name $MODEL_NAME
