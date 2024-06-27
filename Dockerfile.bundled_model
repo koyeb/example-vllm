@@ -7,16 +7,22 @@
 #       resulting image is too large (>10GB), the deployment will fail when it
 #       attempts to download the image from the registry.
 
-FROM vllm/vllm-openai:latest
+FROM vllm/vllm-openai:latest AS builder
 
-ARG HUGGING_FACE_HUB_TOKEN
-ENV HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}
+ARG HF_TOKEN
+ARG MODEL_NAME="EleutherAI/pythia-70m"
+ARG REVISION="main"
 
-RUN pip install huggingface-cli
-RUN huggingface-cli login --token $HUGGING_FACE_HUB_TOKEN
-RUN huggingface-cli download ${MODEL_NAME:-EleutherAI/pythia-70m} --local-dir /model
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN pip install huggingface_hub[cli]
+RUN huggingface-cli login --token $HF_TOKEN
+RUN huggingface-cli download $MODEL_NAME --revision $REVISION --local-dir /workspace/model
+
+FROM vllm/vllm-openai:latest AS vllm
+
+COPY --from=builder /workspace/model /workspace/model
 
 ENTRYPOINT python3 -m vllm.entrypoints.openai.api_server \
-    --model /model \
-    --served-model-name ${MODEL_NAME:-EleutherAI/pythia-70m} \
-    ${REVISION:+--revision "$REVISION"}
+    --model /workspace/model \
+    --served-model-name $MODEL_NAME \
