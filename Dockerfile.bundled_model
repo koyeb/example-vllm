@@ -14,8 +14,9 @@ ARG MODEL_NAME="EleutherAI/pythia-70m"
 ARG REVISION="main"
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV HF_HUB_ENABLE_HF_TRANSFER=1
 
-RUN pip install huggingface_hub[cli]
+RUN pip install huggingface_hub[cli] huggingface_hub[hf_transfer]
 RUN huggingface-cli login --token $HF_TOKEN
 RUN huggingface-cli download $MODEL_NAME --revision $REVISION --local-dir /workspace/model
 
