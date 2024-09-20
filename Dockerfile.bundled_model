@@ -10,17 +10,22 @@
 FROM vllm/vllm-openai:latest
 
 ARG HF_TOKEN
-ARG MODEL_NAME="EleutherAI/pythia-70m"
+ARG MODEL_NAME=
 ARG REVISION="main"
 
-ENV DEBIAN_FRONTEND=noninteractive
+ENV HF_HOME=/workspace/model-cache
 ENV HF_HUB_ENABLE_HF_TRANSFER=1
 ENV MODEL_NAME=$MODEL_NAME
+ENV HF_TOKEN=$HF_TOKEN
 
-RUN pip install huggingface_hub[cli] huggingface_hub[hf_transfer]
-RUN huggingface-cli login --token $HF_TOKEN
-RUN huggingface-cli download $MODEL_NAME --revision $REVISION --local-dir /workspace/model
+COPY ./model_downloader.sh /workspace/model_downloader.sh
+
+RUN pip install --no-cache-dir huggingface_hub[cli,hf_transfer] && \
+    bash /workspace/downloader.sh
+
+ENV HF_HUB_OFFLINE=1
 
 ENTRYPOINT python3 -m vllm.entrypoints.openai.api_server \
-    --model /workspace/model \
-    --served-model-name $MODEL_NAME
+    --served-model-name $MODEL_NAME \
+    --gpu-memory-utilization ${GPU_MEMORY_LIMIT:-0.95} \
+    ${MAX_MODEL_LEN:+--max-model-len "$MAX_MODEL_LEN"}
