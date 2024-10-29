@@ -21,7 +21,7 @@ ENV HF_TOKEN=$HF_TOKEN
 COPY ./model_downloader.sh /workspace/model_downloader.sh
 
 RUN pip install --no-cache-dir huggingface_hub[cli,hf_transfer] && \
-    bash /workspace/downloader.sh
+    bash /workspace/model_downloader.sh
 
 ENV HF_HUB_OFFLINE=1
 
