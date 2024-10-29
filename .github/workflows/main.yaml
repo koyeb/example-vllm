@@ -32,8 +32,6 @@ jobs:
           context: .
           file: Dockerfile.bundled_model
           tags: ${{ matrix.model.tag }}
-          cache-from: type=registry,ref=${{ matrix.model.tag }}
-          cache-to: type=inline
           outputs: |
             type=registry,compression=zstd
           build-args: |
