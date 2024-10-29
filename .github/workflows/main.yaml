@@ -13,6 +13,13 @@ jobs:
             tag: koyeb/meta-llama-3.1-8b:latest
           - name: NousResearch/Hermes-3-Llama-3.1-8B
             tag: koyeb/nousresearch-hermes-3-llama-3.1-8b:latest
+          - name: mistralai/Mistral-7B-Instruct-v0.3
+            tag: koyeb/mistralai-mistral-7b-instruct-v0.3:latest
+          - name: google/gemma-2-9b-it
+            tag: koyeb/google-gemma-2-9b-it:latest
+          - name: Qwen/Qwen2.5-7B-Instruct
+            tag: koyeb/qwen-qwen2.5-7b-instruct:latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
