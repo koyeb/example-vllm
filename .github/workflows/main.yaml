@@ -6,6 +6,13 @@ on:
 jobs:
   docker:
     runs-on: koyeb-runner-xlarge
+    strategy:
+      matrix:
+        model:
+          - name: meta-llama/Llama-3.1-8B
+            tag: koyeb/meta-llama-3.1-8b:latest
+          - name: NousResearch/Hermes-3-Llama-3.1-8B
+            tag: koyeb/nousresearch-hermes-3-llama-3.1-8b:latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,11 +31,11 @@ jobs:
           push: true
           context: .
           file: Dockerfile.bundled_model
-          tags: koyeb/meta-llama-3.1-8b:latest
-          cache-from: type=registry,ref=koyeb/meta-llama-3.1-8b:latest
+          tags: ${{ matrix.model.tag }}
+          cache-from: type=registry,ref=${{ matrix.model.tag }}
           cache-to: type=inline
           outputs: |
             type=registry,compression=zstd
           build-args: |
-            MODEL_NAME=meta-llama/Llama-3.1-8B
+            MODEL_NAME=${{ matrix.model.name }}
             HF_TOKEN=${{ secrets.HUGGINGFACE_TOKEN }}
