@@ -25,6 +25,8 @@ jobs:
           push: true
           file: Dockerfile.bundled_model
           tags: koyeb/bundled-meta-llama-llama-3.1-8b:latest
+          cache-from: type=registry,ref=koyeb/bundled-meta-llama-llama-3.1-8b:latest
+          cache-to: type=inline
           build-args: |
             MODEL_NAME=meta-llama/Llama-3.1-8B
             HF_TOKEN=${{ secrets.HUGGINGFACE_TOKEN }}
