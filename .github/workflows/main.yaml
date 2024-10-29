@@ -21,12 +21,14 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: .
           push: true
+          context: .
           file: Dockerfile.bundled_model
           tags: koyeb/meta-llama-3.1-8b:latest
           cache-from: type=registry,ref=koyeb/meta-llama-3.1-8b:latest
           cache-to: type=inline
+          outputs: |
+            type=registry,compression=zstd
           build-args: |
             MODEL_NAME=meta-llama/Llama-3.1-8B
             HF_TOKEN=${{ secrets.HUGGINGFACE_TOKEN }}
