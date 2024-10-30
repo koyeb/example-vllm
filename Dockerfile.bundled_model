@@ -26,6 +26,6 @@ RUN pip install --no-cache-dir huggingface_hub[cli,hf_transfer] && \
 ENV HF_HUB_OFFLINE=1
 
 ENTRYPOINT python3 -m vllm.entrypoints.openai.api_server \
-    --served-model-name $MODEL_NAME \
+    --model $MODEL_NAME \
     --gpu-memory-utilization ${GPU_MEMORY_LIMIT:-0.95} \
     ${MAX_MODEL_LEN:+--max-model-len "$MAX_MODEL_LEN"}
