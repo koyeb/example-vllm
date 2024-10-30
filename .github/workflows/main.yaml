@@ -5,7 +5,7 @@ on:
 
 jobs:
   docker:
-    runs-on: koyeb-runner-xlarge
+    runs-on: koyeb-runner
     strategy:
       matrix:
         model:
