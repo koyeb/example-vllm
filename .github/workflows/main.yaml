@@ -57,4 +57,5 @@ jobs:
             type=registry,compression=zstd
           build-args: |
             MODEL_NAME=${{ matrix.model.name }}
-            HF_TOKEN=${{ secrets.HUGGINGFACE_TOKEN }}
+          secrets: |
+            "hf_token=${{ secrets.HUGGINGFACE_TOKEN }}"

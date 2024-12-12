@@ -9,19 +9,19 @@
 
 FROM vllm/vllm-openai:latest
 
-ARG HF_TOKEN
 ARG MODEL_NAME=
 ARG REVISION="main"
 
 ENV HF_HOME=/workspace/model-cache
 ENV HF_HUB_ENABLE_HF_TRANSFER=1
 ENV MODEL_NAME=$MODEL_NAME
-ENV HF_TOKEN=$HF_TOKEN
 
 COPY ./model_downloader.sh /workspace/model_downloader.sh
 
-RUN pip install --no-cache-dir huggingface_hub[cli,hf_transfer] && \
-    bash /workspace/model_downloader.sh
+RUN pip install --no-cache-dir huggingface_hub[cli,hf_transfer]
+
+RUN --mount=type=secret,id=hf_token \
+    HF_TOKEN=$(cat /run/secrets/hf_token) bash /workspace/model_downloader.sh
 
 ENV HF_HUB_OFFLINE=1
 
