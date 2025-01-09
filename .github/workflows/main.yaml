@@ -33,6 +33,8 @@ jobs:
             tag: koyeb/huggingfacetb-smollm2-360m-instruct:latest
           - name: HuggingFaceTB/SmolLM2-135M-Instruct
             tag: koyeb/huggingfacetb-smollm2-135m-instruct:latest
+          - name: microsoft/phi-4
+            tag: koyeb/microsoft-phi-4-14b:latest
 
     steps:
       - name: Checkout
