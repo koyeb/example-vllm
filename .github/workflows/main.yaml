@@ -9,6 +9,8 @@ jobs:
     strategy:
       matrix:
         model:
+          - name: Qwen/Qwen2-VL-7B-Instruct
+            tag: koyeb/qwen-qwen2-vl-7b-instruct:latest
           - name: meta-llama/Llama-3.1-8B-Instruct
             tag: koyeb/meta-llama-3.1-8b-instruct:latest
           - name: meta-llama/Llama-3.3-70B-Instruct
